@@ -1,0 +1,32 @@
+
+
+services:
+    hello-world:
+        image: hello-world
+
+    universal_app_webserver:
+        build:
+            # context: x:/
+            dockerfile: Dockerfile
+        image: archimagewiz/srv:universal_app_webserver
+        container_name: universal_app_webserver
+        restart: unless-stopped
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - /etc/nginx/:/etc/nginx/:ro
+            - /etc/letsencrypt:/etc/letsencrypt:ro
+            - /home/archimage/app/static:/home/archimage/app/static
+
+
+    universal_app:
+        build:
+            dockerfile: dockerfile_app
+        image: archimagewiz/srv:universal_app
+        container_name: universal_app
+        restart: unless-stopped
+        ports:
+            - 5777:5777
+        volumes:
+            - /home/archimage/app:/home/archimage/app

@@ -1,0 +1,14 @@
+<div class="banner-carousel-container">
+    {% if actions %}
+        {% for action in actions %}
+        <div class="banner-cat-carousel-item">
+            <img
+                src="{{ action.image_url }}"
+                alt="{{ action.description }}"
+                class="banner-cat-carousel-img"
+            />
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+</div>

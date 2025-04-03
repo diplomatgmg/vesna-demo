@@ -1,0 +1,18 @@
+<div class="badges-carousel-container">
+    {% if SPP_badges %}
+    {% for badge in SPP_badges %}
+    <a
+        href="{{ badge.url }}"
+        target="_self"
+        class="badges-carousel-item index-telegram-open-special"
+        title="{{ badge.description }}"
+    >
+        <img
+            src="{{ badge.image_url }}"
+            alt="{{ badge.description }}"
+            class="badges-carousel-img"
+        />
+    </a>
+    {% endfor %}
+    {% endif %}
+</div>

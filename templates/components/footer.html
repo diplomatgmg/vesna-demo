@@ -1,0 +1,151 @@
+<nav class="footer-menu-container">
+
+    <a class="footer-menu-item-container" href="/" target="_self">
+        <div class="footer-menu-item-image-1">
+            <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M7.39616 20.663H3.55296C2.13717 20.663 0.990051 19.5159 0.990051 18.1001V10.5609C0.990914 10.0117 1.10913 9.46897 1.33678 8.96914C1.56444 8.46931 1.89627 8.0239 2.31005 7.66274L9.23715 1.62927C9.70361 1.22349 10.301 1 10.9193 1C11.5375 1 12.135 1.22349 12.6014 1.62927L19.5285 7.66391C19.9421 8.02494 20.2739 8.47016 20.5015 8.96978C20.7292 9.46939 20.8475 10.0119 20.8485 10.5609V18.1001C20.8485 18.7796 20.5786 19.4313 20.0983 19.9119C19.6179 20.3926 18.9663 20.6627 18.2868 20.663H14.7625V12.9755C14.7625 11.9148 13.9027 11.0539 12.8409 11.0539H9.31892C8.25708 11.0539 7.39732 11.9148 7.39732 12.9755L7.39616 20.663ZM7.39616 20.663H14.7636"
+                    stroke="#292928"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </div>
+        <div class="footer-menu-item footer-menu-main-text">Главная</div>
+        {% if page == 'main' %}
+        <style>
+            .footer-menu-item-image-1 svg path {
+                stroke: {{menu_button_colors_value}};
+            }
+            .footer-menu-main-text {
+                color: {{menu_button_colors_value}};
+            }
+        </style>
+        {% else %}
+        <style>
+            .footer-menu-item-image-1 svg path {
+                stroke: {{menu_button_colors_extra_field_1}};
+            }
+            .footer-menu-main-text {
+                color: {{menu_button_colors_extra_field_1}};
+            }
+        </style>
+        {% endif %}
+    </a>
+
+    <a class="footer-menu-item-container" href="/products" target="_self">
+        <div class="footer-menu-item-image-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 10H7C9 10 10 9 10 7V5C10 3 9 2 7 2H5C3 2 2 3 2 5V7C2 9 3 10 5 10Z" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 10H19C21 10 22 9 22 7V5C22 3 21 2 19 2H17C15 2 14 3 14 5V7C14 9 15 10 17 10Z" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 22H19C21 22 22 21 22 19V17C22 15 21 14 19 14H17C15 14 14 15 14 17V19C14 21 15 22 17 22Z" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 22H7C9 22 10 21 10 19V17C10 15 9 14 7 14H5C3 14 2 15 2 17V19C2 21 3 22 5 22Z" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+        </div>
+        <div class="footer-menu-item footer-menu-cat-text">Каталог</div>
+        {% if page == 'products' %}
+        <style>
+            .footer-menu-item-image-2 svg path {
+                stroke: {{menu_button_colors_value}};
+            }
+            .footer-menu-cat-text {
+                color: {{menu_button_colors_value}};
+            }
+        </style>
+        {% else %}
+        <style>
+            .footer-menu-item-image-2 svg path {
+                stroke: {{menu_button_colors_extra_field_1}};
+            }
+            .footer-menu-cat-text {
+                color: {{menu_button_colors_extra_field_1}};
+            }
+        </style>
+        {% endif %}
+    </a>
+
+    <a class="footer-menu-item-container" href="/stock" target="_self">
+        <div class="footer-menu-item-image-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.7299 3.50965L15.4899 7.02965C15.7299 7.51965 16.3699 7.98965 16.9099 8.07965L20.0999 8.60965C22.1399 8.94965 22.6199 10.4296 21.1499 11.8896L18.6699 14.3696C18.2499 14.7896 18.0199 15.5996 18.1499 16.1796L18.8599 19.2496C19.4199 21.6796 18.1299 22.6196 15.9799 21.3496L12.9899 19.5796C12.4499 19.2596 11.5599 19.2596 11.0099 19.5796L8.01991 21.3496C5.87991 22.6196 4.57991 21.6696 5.13991 19.2496L5.84991 16.1796C5.97991 15.5996 5.74991 14.7896 5.32991 14.3696L2.84991 11.8896C1.38991 10.4296 1.85991 8.94965 3.89991 8.60965L7.08991 8.07965C7.61991 7.98965 8.25991 7.51965 8.49991 7.02965L10.2599 3.50965C11.2199 1.59965 12.7799 1.59965 13.7299 3.50965Z" stroke="#292928" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="footer-menu-item footer-menu-stock-text">Акции</div>
+        {% if page == 'stock' %}
+        <style>
+            .footer-menu-item-image-3 svg path {
+                stroke: {{menu_button_colors_value}};
+            }
+            .footer-menu-stock-text {
+                color: {{menu_button_colors_value}};
+            }
+        </style>
+        {% else %}
+        <style>
+            .footer-menu-item-image-3 svg path {
+                stroke: {{menu_button_colors_extra_field_1}};
+            }
+            .footer-menu-stock-text {
+                color: {{menu_button_colors_extra_field_1}};
+            }
+        </style>
+        {% endif %}
+    </a>
+
+    <a class="footer-menu-item-container" href="/cart" target="_self">
+        <div class="footer-menu-item-image-4">
+            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.31043 2L5.69043 5.63" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15.6904 2L19.3104 5.63" stroke="#292928" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.5 7.84961C2.5 5.99961 3.49 5.84961 4.72 5.84961H20.28C21.51 5.84961 22.5 5.99961 22.5 7.84961C22.5 9.99961 21.51 9.84961 20.28 9.84961H4.72C3.49 9.84961 2.5 9.99961 2.5 7.84961Z" stroke="#292928" stroke-width="1.5"/>
+                <path d="M10.26 14V17.55" stroke="#292928" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M14.8604 14V17.55" stroke="#292928" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M4 10L5.41 18.64C5.73 20.58 6.5 22 9.36 22H15.39C18.5 22 18.96 20.64 19.32 18.76L21 10" stroke="#292928" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="footer-menu-item footer-menu-cart-text">Корзина</div>
+        {% if page == 'cart' %}
+        <style>
+            .footer-menu-item-image-4 svg path {
+                stroke: {{menu_button_colors_value}};
+            }
+            .footer-menu-cart-text {
+                color: {{menu_button_colors_value}};
+            }
+        </style>
+        {% else %}
+        <style>
+            .footer-menu-item-image-4 svg path {
+                stroke: {{menu_button_colors_extra_field_1}};
+            }
+            .footer-menu-cart-text {
+                color: {{menu_button_colors_extra_field_1}};
+            }
+        </style>
+        {% endif %}
+    </a>
+
+</nav>
+
+<div class="global-container">
+    <footer class="main-footer-container">
+        <div class="main-footer-text">
+            {{ project_name_extra_field_1|nl2br|safe }}
+            <a href="{{footer_link_value}}" class="main-footer-text footer-link">
+                {{footer_link_description}}
+            </a>
+            </div>
+    </footer>
+</div>
+
+<div class="global-container">
+    {% if project_footer_special_text_value == "yes" %}
+    {{project_footer_special_text_extra_field_1|safe}}
+    {% endif %}
+    </div>

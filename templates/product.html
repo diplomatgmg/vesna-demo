@@ -1,0 +1,245 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/header.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product.css', v=project_random_id) }}" />
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/badges_carousel.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css', v=project_random_id) }}" />
+<script src="{{ url_for('static', filename='js/product.js', v=project_random_id) }}"></script>
+<script src="{{ url_for('static', filename='js/cart.js', v=project_random_id) }}"></script>
+{% endblock %} {% block content %}
+
+<div data-page="product"></div>
+
+<div class="global-container">
+    <section class="product-images-carousel-container">
+        {% for image in product.images %}
+        <div class="product-images-carousel-item">
+            <img src="{{ image.Image_URL }}" alt="" class="product-images-carousel-image" {% if loop.first %}
+                id="mainImage" {% endif %} />
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% if product.images|length > 1 %}
+<style>
+    .product-images-carousel-item {
+        flex-basis: 75%;
+    }
+</style>
+{% endif %}
+
+<div class="global-container">
+    <section class="product-name-header-container">
+        <h2 id="productName">{{ product.Product_Name }}</h2>
+        {% if product.reviews_video %}
+        <a class="videoButton" href="#">
+            <svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="1" width="40" height="40" rx="9.5" stroke="{{project_colors_value}}" />
+                <path
+                    d="M26.6346 6H14.4487C9.15554 6 6 9.15554 6 14.4487V26.6201C6 31.9278 9.15554 35.0834 14.4487 35.0834H26.6201C31.9133 35.0834 35.0688 31.9278 35.0688 26.6346V14.4487C35.0834 9.15554 31.9278 6 26.6346 6ZM24.4098 23.0574L22.5484 24.1335L20.6871 25.2096C18.2877 26.591 16.3246 25.4568 16.3246 22.6938V20.5417V18.3895C16.3246 15.612 18.2877 14.4923 20.6871 15.8738L22.5484 16.9499L24.4098 18.026C26.8091 19.4074 26.8091 21.6759 24.4098 23.0574Z"
+                    fill="{{project_colors_value}}" />
+            </svg>
+        </a>
+        {% endif %}
+    </section>
+</div>
+
+<div class="global-container">
+    <section class="product-block-container">
+
+        <div class="productInfo" data-product-id="{{ product.Product_ID }}" data-product-name="{{product.Product_Name}}"
+            {% if product.images[chosen_parameter] %} data-product-image="{{ product.images[0].Image_URL }}" {% endif %}
+            {% if product.parameters[chosen_parameter] %}
+            data-parameter-id="{{ product.parameters[chosen_parameter].Parameter_ID }}"
+            data-parameter-name="{{ product.parameters[chosen_parameter].name }}"
+            data-parameter-string="{{ product.parameters[chosen_parameter].parameter_string }}"
+            data-color-picker-color="{% if product.parameters[chosen_parameter].extra_field_color %}{{ product.parameters[chosen_parameter].extra_field_color }}{% endif %}"
+            data-product-price="{{product.parameters[chosen_parameter].price}}"
+            data-old-price="{% if product.parameters[chosen_parameter].old_price %}{{product.parameters[chosen_parameter].old_price}}{% endif %}"
+            {% endif %}></div>
+
+        <div class="product-price-container">
+            <span class="product-price" style="margin-right: 20px">{{product.parameters[chosen_parameter].price}}
+                ₽</span>
+            <del class="productPriceDiscount">
+                {% if product.parameters[chosen_parameter].old_price %}
+                {{product.parameters[chosen_parameter].old_price}} ₽
+                {% endif %}
+            </del>
+        </div>
+
+        <div class="product-special-separator"></div>
+
+        {% if product.parameters %}
+        <div class="product-parameters-header">{{product.parameters[chosen_parameter].name}}</div>
+        <div class="product-parameters-container">
+            {% for parameter in product.parameters %}
+            <div class="product-parameter-container {% if loop.index == (chosen_parameter+1) %}pp-active{% endif %}"
+                data-parameter-id="{{ parameter.Parameter_ID }}" data-parameter-name="{{ parameter.name }}"
+                data-parameter-string="{{ parameter.parameter_string }}"
+                data-color-picker-color="{% if parameter.extra_field_color %}{{ parameter.extra_field_color }}{% endif %}"
+                data-product-price="{{parameter.price}}"
+                data-old-price="{%if parameter.old_price %}{{parameter.old_price}}{% endif %}"
+                data-product-extra-image="{% if parameter.extra_field_image %}{{ parameter.extra_field_image }}{% endif %}">
+                <span class="product-parameter-text">{{parameter.parameter_string}}</span>
+                {% if parameter.extra_field_color %}
+                <div class="product-parameter-color" style="background-color: {{ parameter.extra_field_color }};"></div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </section>
+</div>
+
+<div class="global-container">
+    <section class="product-block-container-badges">
+        <h3 class="product-info-header">Полезная информация</h3>
+        <div>{% include 'components/badges_carousel.html' %}</div>
+    </section>
+</div>
+
+<div class="global-container">
+    <section class="product-accordeon-container">
+        {% for extra in product.extras %}
+        {% if extra.Characteristics %}
+        <section class="accordion">
+            <div class="accordionHeader">
+                <span>{{product_page_accordeon_item_header_12_value}}</span>
+            </div>
+            <div class="accordionContent">
+                <p>{{ extra.Characteristics | nl2br | safe }}</p>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if extra.Kit %}
+        <section class="accordion">
+            <div class="accordionHeader">
+                <span>{{product_page_accordeon_item_header_12_description}}</span>
+            </div>
+            <div class="accordionContent">
+                <p>{{ extra.Kit | nl2br | safe }}</p>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if extra.Offer %}
+        <section class="accordion">
+            <div class="accordionHeader">
+                <span>{{product_page_accordeon_item_header_34_value}}</span>
+            </div>
+            <div class="accordionContent">
+                <p>{{ extra.Offer | nl2br | safe }}</p>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if extra.Delivery %}
+        <section class="accordion">
+            <div class="accordionHeader">
+                <span>{{product_page_accordeon_item_header_34_description}}</span>
+            </div>
+            <div class="accordionContent">
+                <p>{{ extra.Delivery | nl2br | safe }}</p>
+            </div>
+        </section>
+        {% endif %}
+        {% endfor %}
+
+    </section>
+</div>
+
+<div class="global-container">
+    <section class="product-block-container">
+        <h3>Отзывы</h3>
+        {% if product.reviews %}
+        <div class="product-review-slider-container">
+            {% for review in product.reviews %}
+            <div class="product-review-image-container">
+                <img src="{{ review.Photo_URL }}" alt="Фото отзыва" class="product-review-image">
+            </div>
+            {% endfor%}
+        </div>
+        {% else %}
+        <h5>Отзывы отсутствуют</h5>
+        {% endif %}
+
+        <a href="{{ reviews_link_value }}" class="product-show-all-reviews-link">
+            <div class="product-show-all-reviews-button">
+                Смотреть все отзывы
+            </div>
+        </a>
+    </section>
+
+    <div class="product-popup" id="product-popup">
+        <div class="product-popup-content">
+            <div class="product-close-btn">&times;</div>
+            <img src="" alt="Фото в полном размере" id="product-popup-image" />
+        </div>
+    </div>
+</div>
+
+{% if product.reviews_video %}
+<div class="global-container">
+    <section class="product-block-container">
+        <div class="product-video-container" id="product-video">
+            <h3>Видеообзор</h3>
+            {% for video in product.reviews_video %}
+            <video class="product-video-video" poster="{{ video.Poster_URL }}" controls>
+                <source src="{{ video.Video_URL }}" />
+                Ваш браузер не поддерживает тег video.
+            </video>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endif %}
+
+
+<div class="product-cartadd-button-container">
+    <button data-productid="{{ product.Product_ID }}" class="product-cartadd-button">Добавить в корзину</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const popupProductImages = document.querySelectorAll(
+            ".product-images-carousel-image"
+        );
+
+        const popupImages = document.querySelectorAll(".product-review-image");
+        const popup = document.getElementById("product-popup");
+        const popupImage = document.getElementById("product-popup-image");
+        const closeBtn = document.querySelector(".product-close-btn");
+
+        popupProductImages.forEach((photo) => {
+            photo.addEventListener("click", () => {
+                popupImage.src = photo.src;
+                popup.style.display = "flex";
+            });
+        });
+
+        popupImages.forEach((photo) => {
+            photo.addEventListener("click", () => {
+                popupImage.src = photo.src;
+                popup.style.display = "flex";
+            });
+        });
+
+        closeBtn.addEventListener("click", () => {
+            popup.style.display = "none";
+            popupImage.src = "";
+        });
+
+        popup.addEventListener("click", (event) => {
+            if (event.target === popup) {
+                popup.style.display = "none";
+                popupImage.src = "";
+            }
+        });
+    });
+</script>
+
+{% endblock %} {% block footer%} {% include 'components/footer.html'%} {%
+endblock %}

@@ -1,0 +1,200 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/header.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css', v=project_random_id) }}" />
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/product-card.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css', v=project_random_id) }}" />
+<script src="{{ url_for('static', filename='js/cart.js', v=project_random_id) }}"></script>
+{% endblock %}
+{% block content %}
+
+
+<div id="cart-data-parameters"
+    data-page="cart"
+    data-delivery-price="{{cart_delivery_price_value}}"
+    data-delivery-price-offline="{{cart_delivery_price_offline_value}}"
+    {% for action in actions %}
+    {% if action.action_type == "p23" %}
+    data-actions-p23="{{action.extra_field_1}}:{{action.extra_field_2}}"
+    {% endif %}
+    {% endfor %}
+></div>
+
+<div class="global-container cart-header-empty-block">
+    <section class="cart-header-container">
+        <h3 class="cart-header-headertext">Корзина</h3>
+        <button id="cart-clear-button" class="cart-header-clear-button">Очистить корзину</button>
+    </section>
+</div>
+
+<div id="cart-empty-block" class="global-container">
+    <div class="cart-empty-block">
+        <h3>Корзина пуста</h3>
+        <span>Воспользуйтесь каталогом или поиском для выбора товаров</span>
+    </div>
+    <a href="/products" id="cart-gotocatalog-link">
+        <div class="cart-gotocatalog-button">В каталог</div>
+    </a>
+</div>
+
+<div class="global-container">
+    <section class="productsAtCart">
+
+    </section>
+</div>
+
+<form method="post" action="/cart" id="contact-form">
+    <div class="global-container cart-header-empty-block">
+        <div id="cart-order-blocks">
+            <section class="cart-info-container">
+                <h3 class="cart-header-headertext">Контактная информация</h3>
+                <div class="">
+                    <div class="contactForm">
+                        <div class="form-group field-cartform-fio required">
+                            <label for="cartform-fio">ФИО</label>
+                            <input type="text" id="cartform-fio" name="fio" placeholder="ФИО"
+                                aria-required="true" required>
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-cartform-phone required">
+                            <label for="cartform-phone">Телефон</label>
+                            <input type="tel" id="cartform-phone" name="phone" placeholder="Телефон"
+                                aria-required="true" required value="+7">
+                            <div class="help-block"></div>
+                        </div>
+                        <span>Адрес доставки</span>
+                        <div class="form-group field-cartform-city required">
+                            <label for="cartform-city">Город</label>
+                            <input type="text" id="cartform-city" name="city" placeholder="Город и улица"
+                                aria-required="true" required>
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="flexRow" style="gap: 10px; margin: 0;">
+                            <div class="form-group field-cartform-house">
+                                <label for="cartform-house">Дом</label>
+                                <input type="text" id="cartform-house" name="house" placeholder="Дом" required>
+                                <div class="help-block"></div>
+                            </div>
+                            <div class="form-group field-cartform-apartment">
+                                <label for="cartform-apartment">Квартира</label>
+                                <input type="text" id="cartform-apartment" name="apartment"
+                                    placeholder="Квартира">
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="form-group field-cartform-comment">
+                            <label for="cartform-comment">Комментарий</label>
+                            <textarea id="cartform-comment" name="comment" rows="6"
+                                placeholder="Примечание"></textarea>
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    {% if cart_allow_post_payment_value == "yes" %}
+    <div class="global-container cart-header-empty-block">
+        <section class="cart-info-container">
+            <h3 class="cart-header-headertext">Тип оплаты</h3>
+            <div class="cartPaymentBlocksType cartPaymentBlocks flexRow methodWithoutSplit">
+                <div class="flexColumn sbp payType" style="gap: 6px;" data-pay-type="online">
+                    <span>
+                        Оплата онлайн в приложении
+                    </span>
+                </div>
+                <div class="flexColumn cards payType active" style="gap: 6px;" data-pay-type="delivery">
+                    <span>
+                        Оплата при получении
+                    </span>
+                </div>
+            </div>
+        </section>
+    </div>
+    {% endif %}
+
+    <div class="global-container cart-header-empty-block">
+        <section class="cart-promocode-container">
+            <span>Промокод: </span>
+            <input type="text" class="promoInput">
+        </section>
+    </div>
+
+    <div class="global-container cart-header-empty-block">
+        <section class="cart-total-block">
+            <div class="summary">
+
+                <div class="flexRow summaryInfo">
+                    <span>
+                        <div>Доставка:</div>
+                    </span>
+                    <span class="delivery cart-delivery-special-text">
+                        0 ₽
+                    </span>
+                </div>
+
+                <div id="cart-dicount-block" class="flexRow summaryInfo">
+                    <span>
+                        Ваша скидка:
+                    </span>
+                    <span class="discount" id="field-green">
+                        0 ₽
+                    </span>
+                </div>
+
+                <div class="flexRow summaryInfo">
+                    <span>
+                        Сумма заказа:
+                    </span>
+                    <span class="withDiscount">
+                        0 ₽
+                    </span>
+                </div>
+
+                <div class="flexRow summaryInfo">
+                    <span id="cart-final-block-summary">
+                        К оплате:
+                    </span>
+                    <span class="finalPriceSpan">
+                        0 ₽
+                    </span>
+                </div>
+                <span class="summaryCount">0 товара</span>
+            </div>
+        </section>
+    </div>
+
+    <div class="global-container" id="cart-recomend-block" style="display: none;">
+        <h3 class="cart-header-recomend-text">Рекомендуем</h3>
+        <section class="cart-product-cards-container">
+            {% for product in products %}
+            {% include 'components/product_card.html'%}
+            {% endfor %}
+        </section>
+    </div>
+
+    <input type="hidden" name="payment_method" value="Картой">
+    <input type="hidden" name="products" id="productsData">
+    <input type="hidden" name="summary" id="summary">
+    {% if cart_allow_post_payment_value == "yes" %}
+    <input type="hidden" name="payment_type" id="payment_type" value="delivery">
+    {% else %}
+    <input type="hidden" name="payment_type" id="payment_type" value="online">
+    {% endif %}
+    <input type="hidden" name="tg_user_id" id="tg_user_id" value="999">
+
+    <div class="global-container cart-header-empty-block">
+        <div class="cart-info-container">
+            <button class="showMoreButton">Оформить заказ</button>
+        </div>
+    </div>
+
+</form>
+
+<script src="https://unpkg.com/imask"></script>
+
+
+{% endblock %} {% block footer%} {% include 'components/footer.html'%} {%
+endblock %}

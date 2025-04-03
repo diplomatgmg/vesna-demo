@@ -1,0 +1,18 @@
+<div class="product-carousel-container">
+    {% if categories %}
+        {% for category in categories %}
+        <a
+            href="/products?category={{ category.Category_ID }}"
+            class="cat-carousel-item"
+            
+        >
+            <img
+                src="{{ category.Category_Image }}"
+                alt="{{ category.Category_Name }}"
+                class="cat-carousel-img"
+                data-category-id="{{ category.Category_ID }}"
+            />
+        </a>
+        {% endfor %}
+    {% endif %}
+</div>

@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/header.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css', v=project_random_id) }}" />
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/product-card.css', v=project_random_id) }}" />
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/badges_carousel.css', v=project_random_id) }}" />
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/product_cat_carousel.css', v=project_random_id) }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css', v=project_random_id) }}" />
+<script src="{{ url_for('static', filename='js/products.js', v=project_random_id) }}"></script>
+{% endblock %}
+{% block content %}
+
+<div class="global-container">
+    {% include 'components/product_cat_carousel.html' %}
+</div>
+
+<div class="global-container">
+    <div class="products-header-container" data-page="products">
+        <div class="products-header-text">
+            <h2>Наши товары</h2>
+        </div>
+        <div class="">
+            <button id="showSearchButton">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.5 22.5C18.0228 22.5 22.5 18.0228 22.5 12.5C22.5 6.97715 18.0228 2.5 12.5 2.5C6.97715 2.5 2.5 6.97715 2.5 12.5C2.5 18.0228 6.97715 22.5 12.5 22.5Z" stroke="{{ project_colors_value }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M27.5 27.5L21.6666 21.6667" stroke="{{project_colors_value}}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> 
+            </button>
+            <button id="showFilterButton">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.5 8.125H20" stroke="{{project_colors_value}}" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7.5 8.125H2.5" stroke="{{project_colors_value}}" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.5 12.5C14.9162 12.5 16.875 10.5412 16.875 8.125C16.875 5.70875 14.9162 3.75 12.5 3.75C10.0838 3.75 8.125 5.70875 8.125 8.125C8.125 10.5412 10.0838 12.5 12.5 12.5Z" stroke="#292D32" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M27.5 21.875H22.5" stroke="{{project_colors_value}}" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 21.875H2.5" stroke="{{project_colors_value}}" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.5 26.25C19.9162 26.25 21.875 24.2912 21.875 21.875C21.875 19.4588 19.9162 17.5 17.5 17.5C15.0838 17.5 13.125 19.4588 13.125 21.875C13.125 24.2912 15.0838 26.25 17.5 26.25Z" stroke="#292D32" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="global-container">
+    <div class="products-search-container">
+        <div class="search {% if not search_present %}element-hidden{% endif %}">
+            <form method="get" action="/products" id="search-form">
+                <img src="/static/img/icons/interface/searchNormal.svg" alt="search" />
+                <label class="control-label" for="productsearch-search">Поиск</label>
+                <input id="productsearch-search" type="text" name="search" placeholder="Поиск"
+                    onblur="document.getElementById('search-form').submit();" />
+                <button type="submit" style="display: none">Поиск</button>
+            </form>
+        </div>
+        <div class="filterButtons {% if not markorchip_present %}element-hidden{% endif %}">
+            <a href="/products?mark=hot" id="hotLink">Популярные</a>
+            <a href="/products?chip=true" id="chipLink">Сначала дешевые</a>
+            <a href="/products?mark=new" id="newLink">Новинки</a>
+            <a href="/products?mark=sale" id="saleLink">Акции</a>
+        </div>
+    </div>
+</div>
+
+<div class="global-container">
+    <div class="products-product-cards-container">
+        {% if products %} {% for product in products %} {% include
+        'components/product_card.html'%} {% endfor %}
+        {% else %}
+        <div class="products-not_found-container">
+            <h4>Товаров не найдено</h4>
+            <a href="/products" class="showMoreButton">Сбросить фильтр</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %} {% block footer%} {% include 'components/footer.html'%}
+{%endblock %}

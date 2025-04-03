@@ -1,0 +1,35 @@
+
+<a class="product-card-container" href="/product/{{ product.Product_ID }}" target="_self">
+
+    <div class="product-marks">
+        {% for mark in product.marks %}
+            <div class="{{mark.Mark_Name}}Mark mark-link" data-mark="{{mark.Mark_Name}}" style="text-transform: uppercase;">
+                {{ product.get_mark_text(mark.Mark_Name) }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="product-image-container">
+        {% if product.main_image and product.main_image.Image_URL %}
+            <img src="{{ product.main_image.Image_URL }}" alt="{{product.Product_Name}}" class="product-image" loading="lazy" />
+        {% endif %}
+    </div>
+
+    <div class="product-price-container">
+        <span class="product-price">
+            {{ product.parameters[0].price }} ₽
+        </span>
+        <span class="product-price-old-price">
+            {% if product.parameters[0].old_price %}{{ product.parameters[0].old_price }} ₽{% endif %}
+        </span>
+    </div>
+
+    <div class="product-parameter-string">
+        {{ product.parameters[0].name}} {{ product.parameters[0].parameter_string}}
+    </div>
+
+    <div class="product-name">{{ product.Product_Name }}</div>
+
+    <div class="product-buy-button" data-product-id="{{product.Product_ID}}">Подробнее</div>
+
+</a>

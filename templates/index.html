@@ -1,0 +1,213 @@
+ц{% extends "base.html" %} {% block head %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/header.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/index.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/product-card.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/badges_carousel.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/product_cat_carousel.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/components/banner_actions_carousel.css', v=project_random_id) }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/footer.css', v=project_random_id) }}"
+/>
+
+<script src="{{ url_for('static', filename='js/index.js', v=project_random_id) }}"></script>
+{% endblock %} {% block header%} {% include 'components/header.html'%} {%
+endblock %} {% block content %}
+
+<div data-page="index"></div>
+
+<div class="global-container">
+    {% include 'components/badges_carousel.html' %}
+</div>
+
+<div class="index-special-rotating-shadow shadow-1"></div>
+
+<div class="global-container">
+    <section class="index-payinfo-actions-container">
+        <div class="index-payinfo-container">
+            <a
+                class="index-payinfo-card index-telegram-open-special"
+                href="{{main_page_1st_special_block_value}}"
+                target="_new"
+            >
+                <div class="index-payinfo-card-inner-text-container">
+                    <div class="index-payinfo-card-text">
+                        {{main_page_1st_special_block_description[:17]}}
+                    </div>
+                    <div class="index-payinfo-card-descr-text">
+                        {{main_page_1st_special_block_extra_field_1[:18]}}
+                    </div>
+                </div>
+            </a>
+            <a
+                class="index-payinfo-card2 index-telegram-open-special"
+                href="{{main_page_2nd_special_block_value}}"
+                target="_new"
+            >
+                <div class="index-payinfo-card-inner-text-container">
+                    <div class="index-payinfo-card-text2">
+                        {{main_page_2nd_special_block_description[:17]}}
+                    </div>
+                    <div class="index-payinfo-card-descr-text">
+                        {{main_page_2nd_special_block_extra_field_1[:18]}}
+                    </div>
+                </div>
+            </a>
+        </div>
+        <a
+            class="index-actions-block"
+            href="{{main_page_3rd_special_block_value}}"
+            title="{{main_page_3rd_special_block_description}}"
+            target="_self"
+            style="background-color: {{main_page_3rd_special_block_extra_field_1}};"
+        >
+            <span>{{main_page_3rd_special_block_description}}</span>
+        </a>
+    </section>
+</div>
+
+<div class="global-container">
+    <section class="index-reviews-container">
+        <a
+            href="{{main_page_reviews_block_d_value}}"
+            tile="Отзывы"
+            class="index-link-decoration"
+            target="_self"
+        >
+            <div class="index-reviews-block">
+                <div class="index-reviews-text">
+                    <div class="index-reviews-text-text">Отзывы</div>
+                    <div>
+                        <img
+                            src="/static/img/other/rating_star.svg"
+                            class="index-reviews-star"
+                        />
+                        <img
+                            src="/static/img/other/rating_star.svg"
+                            class="index-reviews-star"
+                        />
+                        <img
+                            src="/static/img/other/rating_star.svg"
+                            class="index-reviews-star"
+                        />
+                        <img
+                            src="/static/img/other/rating_star.svg"
+                            class="index-reviews-star"
+                        />
+                        <img
+                            src="/static/img/other/rating_star.svg"
+                            class="index-reviews-star"
+                        />
+                    </div>
+                </div>
+                <div class="index-payinfo-card-graytext">
+                    {{main_page_reviews_block_d_description}}
+                    {{main_page_reviews_block_d_extra_field_1}}
+                </div>
+            </div>
+        </a>
+    </section>
+</div>
+
+<div class="global-container">
+    {% include 'components/banner_actions_carousel.html' %}
+</div>
+
+<div class="index-special-rotating-shadow shadow-2"></div>
+
+<style>
+    .index-special-rotating-shadow:after {
+        background: radial-gradient(
+            84.29% 136.58% at 6.86% 83.96%,
+            {{main_page_background_shadows_1_value}} 0%,
+            {{main_page_background_shadows_1_description}} 50.08%,
+            {{main_page_background_shadows_1_extra_field_1}} 100%
+        );
+    }
+</style>
+
+<div class="global-container">
+    {% include 'components/product_cat_carousel.html' %}
+</div>
+
+<div class="global-container">
+    <div class="index-product-header-container">
+        <h2>Наши товары</h2>
+    </div>
+</div>
+
+<div class="global-container">
+    <section class="index-product-cards-container">
+        {% for product in products %} {% include 'components/product_card.html'
+        %} {% endfor %}
+    </section>
+</div>
+
+<div
+    class="order-confirmation hidden"
+    role="main"
+    aria-label="Order confirmation message"
+>
+    <div class="confirmation-card">
+        <svg
+            class="close-icon"
+            width="30"
+            height="30"
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.7822 2.30515C14.1833 1.90407 14.1833 1.2538 13.7822 0.852731C13.3811 0.451657 12.7309 0.451657 12.3298 0.852731L7.31751 5.86502L2.30522 0.852731C1.90415 0.451657 1.25388 0.451657 0.852807 0.852731C0.451734 1.2538 0.451734 1.90407 0.852807 2.30515L5.8651 7.31744L0.852807 12.3297C0.451734 12.7308 0.451734 13.3811 0.852807 13.7821C1.25388 14.1832 1.90415 14.1832 2.30522 13.7821L7.31751 8.76985L12.3298 13.7821C12.7309 14.1832 13.3811 14.1832 13.7822 13.7821C14.1833 13.3811 14.1833 12.7308 13.7822 12.3297L8.76993 7.31744L13.7822 2.30515Z"
+                fill="#575757"
+            />
+        </svg>
+        <h1 class="confirmation-title">
+            Спасибо, <br />
+            вы оформили заказ!
+        </h1>
+        {% if telegram_manager_contact_value %}
+        <p class="confirmation-message">
+            Напишите нашему менеджеру сейчас любое сообщение, чтобы мы могли с
+            вами связаться и отправить трек-номер
+        </p>
+        <p class="privacy-notice">
+            * по умолчанию у многих пользователей в телеграм закрытый профиль и
+            мы не можем написать первые
+        </p>
+        <p class="manager-contact">
+            Контакт менеджера
+            <a
+                href="{{telegram_manager_contact_extra_field_1}}"
+                class="manager-handle"
+                target="_self"
+            >
+                {{telegram_manager_contact_value}}
+            </a>
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %} {% block footer%} {% include 'components/footer.html'%} {%
+endblock %}
