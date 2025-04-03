@@ -2,7 +2,7 @@ import logging
 import datetime
 from logging.handlers import TimedRotatingFileHandler
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO) # А если я debug хочу?
 
 
 class lprint:
@@ -21,3 +21,5 @@ class lprint:
     @classmethod
     def p(cls, text, *args):
         cls.logger.info("%s %s", text, " ".join(map(str, args)))
+
+    # почему debug, warning, error не используем?

@@ -1,24 +1,29 @@
+# Файл объявлен в .gitignore
+# Отсутствует версия для В зависимости от версии конфигурация может отличаться. Например, тот же healthcheck отсутствует в версии ниже 3
 
 
 services:
-    hello-world:
+    hello-world: # Зачем??
         image: hello-world
 
     universal_app_webserver:
         build:
-            # context: x:/
+            # context: x:/ # с какой целью закомментировано?
             dockerfile: Dockerfile
         image: archimagewiz/srv:universal_app_webserver
         container_name: universal_app_webserver
         restart: unless-stopped
         ports:
-            - 80:80
-            - 443:443
+            - "80:80" # https://www.jetbrains.com/help/inspectopedia/ComposeUnquotedPorts.html
+            - "443:443" # https://www.jetbrains.com/help/inspectopedia/ComposeUnquotedPorts.html
         volumes:
             - /etc/nginx/:/etc/nginx/:ro
             - /etc/letsencrypt:/etc/letsencrypt:ro
             - /home/archimage/app/static:/home/archimage/app/static
 
+    #        можно отказаться от библиотеки python-dotenv добавив
+    #        env_file:
+    #            - .env
 
     universal_app:
         build:
@@ -27,6 +32,6 @@ services:
         container_name: universal_app
         restart: unless-stopped
         ports:
-            - 5777:5777
+            - "5777:5777" #https://www.jetbrains.com/help/inspectopedia/ComposeUnquotedPorts.html
         volumes:
             - /home/archimage/app:/home/archimage/app

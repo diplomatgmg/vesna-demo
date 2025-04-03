@@ -1,4 +1,5 @@
 function snowFlakes(){
+    // Судя по стилю кода - писал его другой разработчик, лет так 10 назад. Код просто скопировали. Имеет место быть. Устаревшие литералы, объявление переменных через var.
     var canvas = document.getElementById("index-sale-banner-canvas");
     var parent = canvas.parentNode;
     var screenw = parent.getBoundingClientRect().width;

@@ -13,7 +13,7 @@ def product_page(product_id):
         chosen_parameter = None
         product.parameters = sorted(product.parameters, key=lambda x: x.Parameter_ID)
         for indx, parameter in enumerate(product.parameters):
-            print(indx, parameter.Parameter_ID)
+            print(indx, parameter.Parameter_ID) # забыли убрать print
             if parameter.chosen:
                 chosen_parameter = indx
                 break

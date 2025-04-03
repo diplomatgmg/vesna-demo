@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const productsContainer = document.querySelector(".index-product-cards-container");
+    const productsContainer = document.querySelector(".index-product-cards-container"); // Где используется?
     const urlParams = new URLSearchParams(window.location.search);
 
     if (document.querySelector('[data-page="index"]')) {

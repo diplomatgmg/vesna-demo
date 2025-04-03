@@ -2,7 +2,7 @@ import telebot
 from chatgpt_md_converter import telegram_format
 from database.cache import DatabaseCache
 from comon_functions.gigachat import GigaChat
-from comon_functions.chatgpt import ChatGpt
+from comon_functions.chatgpt import ChatGpt # Ошибка импорта
 from comon_functions.lprint import lprint
 from keyboards.keyboards import get_under_menu_buttons
 
@@ -72,7 +72,7 @@ class BotTalks:
             cls.send_action(user_id)
             spp = DatabaseCache.get_special_project_parameters(jinja=True)
             ai_system = spp.get('ai_system_value')
-            # ai_prompt = spp.get('ai_system_extra_field_1')
+            # ai_prompt = spp.get('ai_system_extra_field_1') # Почему закомментировали?  Убрать или пояснить.
             # if ai_system == 'gigachat' and len(ai_prompt) > 1:
             #     return None
             if ai_system == 'chatgpt':
@@ -113,4 +113,4 @@ class BotTalks:
             else:
                 cls._bot.send_message(chat_id, message, reply_markup=reply_markup)
         except Exception as e:
-            lprint.p("Error on send message to user (bot_talks 72)", e)
+            lprint.p("Error on send message to user (bot_talks 72)", e) # Что значит 72?

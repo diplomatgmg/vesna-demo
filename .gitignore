@@ -1,11 +1,15 @@
 #other no nessecary to be in repository
 .build
-Dockerfile*
-docker-compose*
-nginx*
+# Зачем??
+#Dockerfile*
+# Зачем?? При этом docker-compose-build присутствует в проекте
+#docker-compose*
+
+# Зачем?? При этом файл конфигурациие nginx.conf присутствует в проекте
+#nginx*
 logs/*
 
-# secret
+# secret # Тоже есть вопрос, но тут от структуры проекта зависит
 secret*
 
 # Text files

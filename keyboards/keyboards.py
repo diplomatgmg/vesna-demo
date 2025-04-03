@@ -5,7 +5,7 @@ from comon_functions.lprint import lprint
 
 def get_start_menu_buttons():
     return [
-        # InlineKeyboardButton(text="Узнать больше", callback_data="about_extra"),
+        # InlineKeyboardButton(text="Узнать больше", callback_data="about_extra"), # Почему закомментировали? Уберите или добавьте пояснение
         InlineKeyboardButton(text="Открыть приложение 🏪",
                              web_app=WebAppInfo(url=DatabaseCache.get_special_project_parameters(
                                  jinja=True).get('webapp_link_value'))),
@@ -36,12 +36,12 @@ def get_under_menu_buttons() -> ReplyKeyboardMarkup:
                 try:
                     new_buttons.append(
                         KeyboardButton(
-                            text=btn_text,
+                            text=btn_text, # Ошибка типа
                             web_app=WebAppInfo(url=DatabaseCache.get_special_project_parameters(
                                 jinja=True).get('webapp_link_value'))))
                 except Exception as e:
                     lprint.p("Error on get_under_menu_buttons", e)
             if btn_cmd == "sup":
-                new_buttons.append(KeyboardButton(text=btn_text))
+                new_buttons.append(KeyboardButton(text=btn_text)) # ошибка типа
     markup.add(*new_buttons)
     return markup

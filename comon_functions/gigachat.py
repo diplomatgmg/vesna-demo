@@ -16,25 +16,25 @@ class GigaChat:
 
     @classmethod
     def make_gigachat_request(cls, model, messages, max_tokens, top_p, frequency_penalty):
-        response_message = F"Внутрення ошибка сервера {random.random()}"
+        response_message = F"Внутрення ошибка сервера {random.random()}" # F - по pep8 должна быть с маленькой. Не критично, работать будет. Странное переопределение переменной. Да и в целом ниже часто переопределяются другие переменные
         try:
             lprint.p("try GigaChat request")
             if cls.token is None or cls.token['expires_at'] < int(time.time() * 1000):
-                payload = 'scope=GIGACHAT_API_PERS'
+                payload = 'scope=GIGACHAT_API_PERS' # Лучше словарь использовать
                 headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json',
                     'RqUID': str(uuid.uuid4()),
                     'Authorization': F'Basic {config.GIGACHAT_AUTH_DATA}'
                 }
-                response = requests.post(cls.URL,
+                response = requests.post(cls.URL, # лучше дать другое имя.
                                          headers=headers,
                                          data=payload,
                                          verify=False,
                                          timeout=120)
                 cls.token = response.json()
-            response_message = ""
-            payload = json.dumps({
+            response_message = "" # Опять переопределяем
+            payload = json.dumps({ # А тут уже словарь. json.dumps лишний. requests сам преобразует
                 "model": model,
                 "messages": messages,
                 "stream": False,
@@ -45,19 +45,18 @@ class GigaChat:
             headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': F'Bearer {cls.token["access_token"]}'
+                'Authorization': F'Bearer {cls.token["access_token"]}' # тоже "F" с большой. не критично
             }
             response = requests.post(cls.RESP_URL,
                                      headers=headers,
                                      data=payload,
                                      verify=False,
                                      timeout=120)
-            response = response.json()
+            response = response.json() # не очень хорошая практика переопределять переменную с разными типами.
             response_message = response['choices'][0]['message']['content']
             lprint.p("request completed", response['usage'])
         except Exception as e:
-            lprint.p("Error request to gigachad ", e, response.json())
-            return {"status": "error", "message": e}
+            lprint.p("Error request to gigachad ", e, response.json()) # Как-то странно написано. Если мы получчим ошибку в строке "response_message = response['choices'][0]['message']['content']", то выбросится AttributeError, т.к. повторно вызываем .json()
 
         return {"status": "ok", "message": response_message}
 
@@ -81,9 +80,11 @@ class GigaChat:
     def ai_process_message(cls, user_id, ai_prompt):
         messages = [{"role": "system", "content": ai_prompt}]
         for message in cls._messages[user_id]:
-            current_message = {}
-            current_message['role'] = 'assistant' if message['role'] == 'bot' else 'user'
-            current_message['content'] = message['message']
+            # Можно улучшить. Тоже мелочь.
+            current_message = {
+                "role": 'assistant' if message['role'] == 'bot' else 'user',
+                "content": message['message']
+            }
             messages.append(current_message)
         resp = GigaChat.make_gigachat_request(model="GigaChat",
                                               messages=messages,

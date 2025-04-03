@@ -13,7 +13,7 @@ def send_welcome(message: telebot.types.Message, bot: telebot.TeleBot):
         res = DatabaseCache.add_user(message.from_user.id, message.from_user.username,
                                      message.from_user.first_name, message.from_user.last_name,
                                      message.from_user.is_premium)
-        keyb = get_under_menu_buttons()
+        keyb = get_under_menu_buttons() # Почему полностью не написали?
         if res is True:
             BotTalks.dialogues_new_message(
                 F"Новый пользователь ({message.from_user.first_name} {message.from_user.last_name})\nID: {message.from_user.id}\nUN: @{message.from_user.username}"
@@ -22,7 +22,7 @@ def send_welcome(message: telebot.types.Message, bot: telebot.TeleBot):
             message.chat.id,
             DatabaseCache.get_special_project_parameters(
                 jinja=True).get('BOT_WELCOME_MESSAGE_description'), reply_markup=keyb)
-        secnd_msg = DatabaseCache.get_special_project_parameters(
+        secnd_msg = DatabaseCache.get_special_project_parameters( # Тоже сократили? Или опечатка?
             jinja=True).get('BOT_WELCOME_MESSAGE_extra_field_1')
         if len(secnd_msg) > 1:
             bot.send_message(message.chat.id, secnd_msg, reply_markup=markup)

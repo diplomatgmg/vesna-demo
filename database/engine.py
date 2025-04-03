@@ -13,7 +13,9 @@ DB_PORT = str(os.getenv("db_port"))
 
 
 class Engine:
-    SQLALCHEMY_DATABASE_URL = F"postgresql://{DB_USER_NAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    SQLALCHEMY_DATABASE_URL = F"postgresql://{DB_USER_NAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}" # можно использовать sqlalchemy.URL
+    
+
     BASE = declarative_base()
     engine = create_engine(SQLALCHEMY_DATABASE_URL,
                            client_encoding='utf8',

@@ -116,7 +116,7 @@ def cart_send():
         the_messahe += "\nТех. Инфо\n"
         idempotence_key = str(uuid.uuid4())
         if not Configuration.account_id or not Configuration.secret_key:
-            the_messahe += "WARNING: <strong>Заказ не отправлен на оплату в связи с тем, что ненайдены данные магазина!</strong>"
+            the_messahe += "WARNING: <strong>Заказ не отправлен на оплату в связи с тем, что ненайдены данные магазина!</strong>" # Не очень грамотно поставлена речь. "не найдены"
             BotTalks.send_order(the_messahe)
             return redirect("/")
 
@@ -167,8 +167,8 @@ def cart_send():
         BotTalks.send_order(the_messahe)
 
         context = {
-            "title": "ССылка на оплату",
-            "meta_description": "ССылка на оплату",
+            "title": "ССылка на оплату", # почему две заглавных буквы
+            "meta_description": "ССылка на оплату", # аналогично
             "meta_keywords": "payment, page",
             "project_random_id": PROJECT_RANDOM_ID,
             "page": "payment_link",

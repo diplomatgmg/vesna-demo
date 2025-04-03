@@ -1,12 +1,16 @@
 import datetime
 from sqlalchemy.orm import joinedload
 from database.engine import Engine
-from database.models.special_project_parameters import SpecialProjectParameters
-from database.models.special_project_parameters_badges import SpecialProjectParametersBadges
-from database.models.special_project_parameters_actions import SpecialProjectParametersActions
-from database.models.categories import Categories
-from database.models.products import Products
-from database.models.users import Users
+
+# см. комментарий в database.__init__.py. Можно будет использовать такой импорт:
+from database.models import (
+    SpecialProjectParameters,
+    SpecialProjectParametersBadges,
+    SpecialProjectParametersActions,
+    Categories,
+    Products,
+    Users
+)
 
 
 class DatabaseCache:

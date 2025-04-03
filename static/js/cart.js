@@ -1,8 +1,10 @@
+// Почему везде let а не const используется? Для поддержки совместимости? Тогда уж лучше var использовать
+
 function removeCartDuplicate() {
-    let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    let newCartItems = [];
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const newCartItems = [];
     cartItems.forEach((item) => {
-        let isDuplicate = newCartItems.some(
+        const isDuplicate = newCartItems.some(
             (newItem) =>
                 newItem.product_id === item.product_id &&
                 newItem.parameter_id === item.parameter_id
@@ -67,23 +69,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     function getPayOnDelivery() {
-        if (
-            paymentType.value === "delivery" &&
-            cartDataParameters.dataset.deliveryPriceOffline
-        )
-            return true;
-        return false;
+        return paymentType.value === "delivery" && cartDataParameters.dataset.deliveryPriceOffline;
+
     }
 
     function minusQuantity(index) {
         let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-        if (cartItems[index].quantity > 1) cartItems[index].quantity--;
+        if (cartItems[index].quantity > 1) cartItems[index].quantity--; // Сложно читается. Лучше декремент не использовать, а писать привычный синтаксис.
+        if (cartItems[index].quantity > 1) {
+            cartItems[index].quantity += 1
+        }
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
 
     function plusQuantity(index) {
         let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-        cartItems[index].quantity++;
+        cartItems[index].quantity += 1; // Опять декремент
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
 
@@ -95,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function displayCartItems() {
         let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-        const productsAtCart = document.querySelector(".productsAtCart");
+        const productsAtCart = document.querySelector(".productsAtCart"); // А тут уже решили константы использовать, хотя до этого везде let был. Почему?
 
         if (!cartItems || cartItems.length < 1) {
             const cartHeaderEmptyBlock = document.querySelectorAll(
@@ -118,94 +119,105 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let itemsHtml = "";
-        if (cartItems.length > 0) {
-            for (let i in cartItems) {
-                itemsHtml += `
-                <div class="productCart">
-                <button data-index="${i}" class="removeItem">
-                    <img src="/static/img/other/close.svg" alt="close">
-                </button>
-                <div class="leftSide">
-                <img src="${
-                    cartItems[i].image
-                        ? cartItems[i].image
-                        : "/static/img/other/no_image.png"
-                }" alt="product">
-                </div>
-                <div class="rightSide">
 
-                <div>
-                <div class="productCartName">
-                    ${cartItems[i].name}
-                </div>
-                <div class="productCartParameter">
-                    ${cartItems[i].parameter_string}
-                </div>
-                `;
-                if (cartItems[i].color) {
-                    itemsHtml += `
-                <div class="productCartColorBlock">
-                    <div class="productCartColor">Цвет: </div>
-                    <div class="cart-product-parameter-color" style="background-color: ${cartItems[i].color};"></div>
-                </div>`;
-                }
-                itemsHtml += `
-                <div class="productCartPrice">
-                    <span>${
-                        cartItems[i].price * cartItems[i].quantity
-                    } ₽</span>`;
-                if (cartItems[i].oldPrice) {
-                    itemsHtml += `&nbsp;<span class="productCartOldPrice">${
-                        cartItems[i].oldPrice * cartItems[i].quantity
-                    } ₽</span>`;
-                }
-                itemsHtml += `
-                </div>
-                </div>
-
-                <div class="productCartCount">
-                    <button data-index="${i}" class="minusItem">-</button>
-                    <span class="countNumber">${cartItems[i].quantity}</span>
-                    <button data-index="${i}" class="plusItem">+</button>
-                </div>
-                </div>
-                </div>`;
-            }
-
-            productsAtCart.innerHTML = itemsHtml;
-
-            document.querySelectorAll(".removeItem").forEach((e) => {
-                e.addEventListener("click", (el) => {
-                    removeFromCart(e.dataset.index);
-                    displayCartItems();
-                    updateSummaryBlock();
-                });
-            });
-            document.querySelectorAll(".minusItem").forEach((e) => {
-                e.addEventListener("click", (el) => {
-                    minusQuantity(el.target.dataset.index);
-                    displayCartItems();
-                    updateSummaryBlock();
-                });
-            });
-            document.querySelectorAll(".plusItem").forEach((e) => {
-                e.addEventListener("click", (el) => {
-                    plusQuantity(el.target.dataset.index);
-                    displayCartItems();
-                    updateSummaryBlock();
-                });
-            });
-            const dataToSend = cartItems.map((item) => ({
-                product_id: item.product_id,
-                parameter_id: item.parameter_id,
-                quantity: item.quantity,
-            }));
-            document.getElementById("productsData").value =
-                JSON.stringify(dataToSend);
+        // Лучше с guard-expression, чтобы избежать сильную вложенность. Так проще читать.
+        if (cartItems.length < 0) {
+            return
         }
+
+        // Опять let. Цикл for ... in лучше не использовать, может свойства прототипов захватить. Хоть они здесь не используются, но не рекомендуется использовать данный цикл
+        // В целом, можно даже деструктуризацию использовать: const [i, {image, name, color, и т.д.}] of cartItems.entries()
+        for (const [i, item] of cartItems.entries()) {
+            const cartItemsImage = item.image ? item.image : "/static/img/other/no_image.png"
+
+            itemsHtml += `
+            <div class="productCart">
+            <button data-index="${i}" class="removeItem">
+                <img src="/static/img/other/close.svg" alt="close">
+            </button>
+            <div class="leftSide">
+            <img src="${cartItemsImage}" alt="product">
+            </div>
+            <div class="rightSide">
+
+            <div>
+            <div class="productCartName">
+                ${item.name}
+            </div>
+            <div class="productCartParameter">
+                ${item.parameter_string}
+            </div>
+            `;
+            if (item.color) {
+                itemsHtml += `
+            <div class="productCartColorBlock">
+                <div class="productCartColor">Цвет: </div>
+                <div class="cart-product-parameter-color" style="background-color: ${item.color};"></div>
+            </div>`;
+            }
+            itemsHtml += `
+            <div class="productCartPrice">
+                <span>${
+                    item.price * item.quantity
+                } ₽</span>`;
+            if (item.oldPrice) {
+                itemsHtml += `&nbsp;<span class="productCartOldPrice">${
+                    item.oldPrice * item.quantity
+                } ₽</span>`;
+            }
+            itemsHtml += `
+            </div>
+            </div>
+
+            <div class="productCartCount">
+                <button data-index="${i}" class="minusItem">-</button>
+                <span class="countNumber">${item.quantity}</span>
+                <button data-index="${i}" class="plusItem">+</button>
+            </div>
+            </div>
+            </div>`;
+        }
+
+        productsAtCart.innerHTML = itemsHtml;
+
+        // Можно уменьшить нагрузку на UI. Ранее на каждый item добавляется отдельный обработчик на .removeItem
+        document.querySelector(".cartContainer").addEventListener("click", (event) => {
+            if (event.target.closest(".removeItem")) {
+                const index = event.target.closest(".removeItem").dataset.index;
+                removeFromCart(index);
+                displayCartItems();
+                updateSummaryBlock();
+            }
+        });
+
+        document.querySelectorAll(".minusItem").forEach((e) => {
+            e.addEventListener("click", (el) => {
+                minusQuantity(el.target.dataset.index);
+                displayCartItems();
+                updateSummaryBlock();
+            });
+        });
+        document.querySelectorAll(".plusItem").forEach((e) => {
+            e.addEventListener("click", (el) => {
+                plusQuantity(el.target.dataset.index);
+                displayCartItems();
+                updateSummaryBlock();
+            });
+        });
+
+        // Лучше деструктуризировать и использовать "синтаксический сахар". Давно это слово не произносил)
+        const dataToSend = cartItems.map(({product_id, parameter_id, quantity}) => ({
+            product_id,
+            parameter_id,
+            quantity,
+        }));
+        document.getElementById("productsData").value =
+            JSON.stringify(dataToSend);
+
     }
 
     function updateSummaryBlock() {
+        // Вот тут понравилось. Хорошее разделение переменных, адекватно используются const и let
         const cartItems = JSON.parse(localStorage.getItem("cartItems"));
 
         const sumWithDiscount = document.querySelector(".withDiscount");
@@ -221,15 +233,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let totalItems = 0;
         let discount = 0;
 
-        if (cartItems) {
-            cartItems.forEach((item) => {
-                totalItems += item.quantity;
-                totalSum += item.price * item.quantity;
-            });
-        }
+        // Зачем if? Если массив пустой - итераций и так не будет. Сюда же деструктуризацию можно добавить.
+        cartItems.forEach(({quantity, price}) => {
+            totalItems += quantity;
+            totalSum += price * quantity;
+        });
 
         if (cartDataParameters.dataset.actionsP23) {
-            const [num1, num2, ...rest] =
+            const [num1, num2] =
                 cartDataParameters.dataset.actionsP23.split(":");
             const d1 = parseInt(num1);
             const d2 = parseInt(num2);
@@ -263,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.querySelector('[data-page="cart"]') && cartDataParameters) {
         const sendOrderButton = document.querySelector(".showMoreButton");
         const orderForm = document.getElementById("contact-form");
-        clearCartButton = document.querySelector("#cart-clear-button");
+        clearCartButton = document.querySelector("#cart-clear-button"); // Тут вообще забыли декларацию переменной сделать
         clearCartButton?.addEventListener("click", clearCart);
 
         function clearCart() {
@@ -326,6 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // Опять непонятные комментарии. Почему оставили? Забыли убрать? Так и будет этот бедный участок кода на протяжении всей жизни проекта висеть.
         // const initialSelectedType = document
         //     .querySelector(".cartPaymentBlocksType .payType.active")
         //     ?.innerText.trim();

@@ -20,7 +20,7 @@ def moderator_exit_handler(message: telebot.types.Message, bot: telebot.TeleBot)
         lprint.p("moderator_exit_handler error", e)
 
 
-def hadle_user_moderator_chat(message: telebot.types.Message, bot: telebot.TeleBot):
+def hadle_user_moderator_chat(message: telebot.types.Message, bot: telebot.TeleBot): # Опечатка
     try:
         if message.from_user.id in moderators_user.values():
             moderator_id = [k for k, v in moderators_user.items() if v == message.from_user.id][0]
@@ -31,11 +31,11 @@ def hadle_user_moderator_chat(message: telebot.types.Message, bot: telebot.TeleB
             bot.forward_message(user_chat_id, message.chat.id, message.message_id)
             return True
     except Exception as e:
-        lprint.p("hadle_user_moderator_chat error", e)
+        lprint.p("hadle_user_moderator_chat error", e) # Скопировали опечатку
     return False
 
 
-def moderator_join_chat_hadler(call: telebot.types.CallbackQuery, bot: telebot.TeleBot):
+def moderator_join_chat_hadler(call: telebot.types.CallbackQuery, bot: telebot.TeleBot): # Опечатка
     try:
         if call.data.startswith("support_message_"):
             spp = DatabaseCache.get_special_project_parameters(jinja=True)
@@ -45,13 +45,13 @@ def moderator_join_chat_hadler(call: telebot.types.CallbackQuery, bot: telebot.T
                 call_for_user = int(call_for_user)
                 if call_for_user not in moderators_user.values():
                     moderators_user[call.from_user.id] = call_for_user
-                    bot.send_message(call.from_user.id, F"Вы присоеденились к чату: {call_for_user}")
-                    bot.send_message(call_for_user, F"Модератор {call.from_user.first_name} {call.from_user.last_name} присоеденился к чату.")
+                    bot.send_message(call.from_user.id, F"Вы присоеденились к чату: {call_for_user}") # Грамматика. "Присоединились"
+                    bot.send_message(call_for_user, F"Модератор {call.from_user.first_name} {call.from_user.last_name} присоеденился к чату.") # Cyjdf uhfvvfnbrf
                 else:
                     moderator_id = [k for k, v in moderators_user.items() if v == call_for_user][0]
                     bot.send_message(call.from_user.id, F"Пользователь {call_for_user} уже подключен к другому модератору {moderator_id}.")
     except Exception as e:
-        lprint("moderator_join_chat_hadler error", e)
+        lprint("moderator_join_chat_hadler error", e) # Тут метод .p забыли вызвать
 
 
 def create_response_support_message(message: telebot.types.Message):
@@ -95,7 +95,7 @@ def handle_menu_buttons(message: telebot.types.Message, bot: telebot.TeleBot) ->
 
 
 def handle_other_text(message: telebot.types.Message, bot: telebot.TeleBot):
-    # process for user vs moderator chat
+    # process for user vs moderator chat # Весь проект без комментариев, но в одном месте решили добавить
     if hadle_user_moderator_chat(message, bot):
         return
     # process for menu buttons

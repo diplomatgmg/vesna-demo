@@ -4,7 +4,7 @@ from database.engine import Engine
 
 
 def renew_session(session):
-    # print("removing session", session)
+    # print("removing session", session) # забыли убрать
     session.close()
     return Engine.get_fla_session()
 

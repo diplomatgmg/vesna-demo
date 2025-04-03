@@ -45,7 +45,7 @@ from routes.products import products_router
 from routes.stock import stock_router
 from routes.cart import cart_router
 
-load_dotenv()
+load_dotenv() # Можно избавиться добавив .env
 
 fl_app = Flask(__name__)
 bot = telebot.TeleBot(str(os.getenv("TOKEN")), parse_mode="HTML", num_threads=4)
